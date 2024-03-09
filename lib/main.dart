@@ -14,8 +14,9 @@ const appScheme = 'flutterauth0';
 class Profile extends StatelessWidget {
   final Future<void> Function() logoutAction;
   final UserProfile? user;
+  final String? accessToken;
 
-  const Profile(this.logoutAction, this.user, {final Key? key})
+  const Profile(this.logoutAction, this.user, this.accessToken, {final Key? key})
       : super(key: key);
 
   @override
@@ -37,6 +38,8 @@ class Profile extends StatelessWidget {
         ),
         const SizedBox(height: 24),
         Text('Name: ${user?.name}'),
+        const SizedBox(height: 24),
+        Text('Token: ${accessToken ?? ''}'),
         const SizedBox(height: 48),
         ElevatedButton(
           onPressed: () async {
@@ -151,7 +154,7 @@ class _MyAppState extends State<_MyApp> {
           child: isBusy
               ? const CircularProgressIndicator()
               : _credentials != null
-                  ? Profile(logoutAction, _credentials?.user)
+                  ? Profile(logoutAction, _credentials?.user, _credentials?.accessToken)
                   : Login(loginAction, errorMessage),
         ),
       ),
