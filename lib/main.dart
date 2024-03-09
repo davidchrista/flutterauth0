@@ -71,7 +71,7 @@ class Login extends StatelessWidget {
           },
           child: const Text('Login'),
         ),
-        Text(loginError ?? ''),
+        Text(loginError),
       ],
     );
   }
@@ -81,24 +81,25 @@ class Login extends StatelessWidget {
 ///                 App
 /// -----------------------------------
 
-void main() => runApp(MyApp());
+void main() => runApp(_MyApp());
 
-class MyApp extends StatefulWidget {
+class _MyApp extends StatefulWidget {
   @override
-  _MyAppState createState() => _MyAppState();
+  State<_MyApp> createState() => _MyAppState();
 }
 
 /// -----------------------------------
 ///              App State
 /// -----------------------------------
 
-class _MyAppState extends State<MyApp> {
+class _MyAppState extends State<_MyApp> {
   bool isBusy = false;
   late String errorMessage;
 
   Credentials? _credentials;
   late Auth0 auth0;
 
+  @override
   void initState() {
     super.initState();
 
