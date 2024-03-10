@@ -123,8 +123,9 @@ class _MyAppState extends State<_MyApp> {
     });
 
     try {
-      final Credentials credentials =
-          await auth0.webAuthentication(scheme: appScheme).login();
+      final Credentials credentials = await auth0
+          .webAuthentication(scheme: appScheme)
+          .login(audience: 'http://localhost:4000');
 
       setState(() {
         isBusy = false;
@@ -160,8 +161,8 @@ class _MyAppState extends State<_MyApp> {
           child: isBusy
               ? const CircularProgressIndicator()
               : _credentials != null
-                  ? Profile(
-                      logoutAction, _credentials?.user, _credentials?.idToken)
+                  ? Profile(logoutAction, _credentials?.user,
+                      _credentials?.accessToken)
                   : Login(loginAction, errorMessage),
         ),
       ),
