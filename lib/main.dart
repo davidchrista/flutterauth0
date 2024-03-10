@@ -2,6 +2,8 @@
 ///          External Packages
 /// -----------------------------------
 
+import 'dart:io';
+
 import 'package:auth0_flutter/auth0_flutter.dart';
 import 'package:flutter/material.dart';
 
@@ -16,11 +18,13 @@ class Profile extends StatelessWidget {
   final UserProfile? user;
   final String? accessToken;
 
-  const Profile(this.logoutAction, this.user, this.accessToken, {final Key? key})
+  const Profile(this.logoutAction, this.user, this.accessToken,
+      {final Key? key})
       : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    stdout.writeln(accessToken ?? '');
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
       children: <Widget>[
@@ -39,7 +43,8 @@ class Profile extends StatelessWidget {
         const SizedBox(height: 24),
         Text('Name: ${user?.name}'),
         const SizedBox(height: 24),
-        Text('Token: ${accessToken ?? ''}'),
+        Text(
+            'Token: ${accessToken != null ? '${accessToken!.substring(0, 100)} ...' : ''}'),
         const SizedBox(height: 48),
         ElevatedButton(
           onPressed: () async {
@@ -106,7 +111,8 @@ class _MyAppState extends State<_MyApp> {
   void initState() {
     super.initState();
 
-    auth0 = Auth0('dev-gzm0pgbh.us.auth0.com', 'Lc5xWjq3AmxXL4Nyhp9QWspQF2psuEUm');
+    auth0 =
+        Auth0('dev-gzm0pgbh.us.auth0.com', 'Lc5xWjq3AmxXL4Nyhp9QWspQF2psuEUm');
     errorMessage = '';
   }
 
@@ -154,7 +160,8 @@ class _MyAppState extends State<_MyApp> {
           child: isBusy
               ? const CircularProgressIndicator()
               : _credentials != null
-                  ? Profile(logoutAction, _credentials?.user, _credentials?.accessToken)
+                  ? Profile(
+                      logoutAction, _credentials?.user, _credentials?.idToken)
                   : Login(loginAction, errorMessage),
         ),
       ),
